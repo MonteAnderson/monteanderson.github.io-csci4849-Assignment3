@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="phone.js"></script>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+body {font-family: Arial;}
+.button {
+    background-color: #ccc;
+    border: none;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.gesture_div {
+    height: 300px;
+    width: 300px;
+    background-color: powderblue;
+}
+
+</style>
+</head>
+<body>
+
+<p>Click on the buttons inside the tabbed menu:</p>
+
+<div class="tab">
+  <button class="tablinks" onclick="openTab(event, 'Dialer')">Dialer</button>
+  <button class="tablinks" onclick="openTab(event, 'Contact_List')">Contact List</button>
+  <button class="tablinks" onclick="openTab(event, 'Add_Contact')">Add Contact</button>
+  <button class="tablinks" onclick="openTab(event, 'Test_Gestures')">Test Gestures</button>
+</div>
+
+
+  
+<div id="Dialer" class="tabcontent">
+  <h3>Dial Number</h3>
+  <br>
+  <input id= "dialerInput" type="text" disabled>
+  <br>
+  <button class="button" onclick="dialerFunc('7')" >7</button>
+  <button class="button" onclick="dialerFunc('8')" >8</button>
+  <button class="button" onclick="dialerFunc('9')" >9</button>
+
+  <br>
+  <button class="button" onclick="dialerFunc('4')" >4</button>
+  <button class="button" onclick="dialerFunc('5')" >5</button>
+  <button class="button" onclick="dialerFunc('6')" >6</button>
+
+  <br>
+  <button class="button" onclick="dialerFunc('1')" >1</button>
+  <button class="button" onclick="dialerFunc('2')" >2</button>
+  <button class="button" onclick="dialerFunc('3')" >3</button>
+
+  <br>
+  <button class="button" onclick="dialerFunc('*')" >*</button>
+  <button class="button" onclick="dialerFunc('0')" >0</button>
+  <button class="button" onclick="dialerFunc('#')" >#</button>
+
+  <br>
+  
+  <button class="button" onclick="dialerFunc('')" >Dial</button>
+  <button class="button" onclick="dialerClear('0')" >Clear</button>
+  
+  
+</div>
+
+<div id="Contact_List" class="tabcontent">
+  <h3>List of Contacts</h3>
+  <a href="#" class="button">Person 1</a>
+  <a href="#" class="button">Person 2</a>
+  <a href="#" class="button">Person 3</a>
+  
+  <br>
+  <a href="#" class="button">Personnnnnn 4</a>
+  <a href="#" class="button">Person 5</a>
+  <a href="#" class="button">Pers 6</a>
+  
+</div>
+
+<div id="Add_Contact" class="tabcontent">
+  <h3>Add New Contact</h3>
+  <form class="pure-form pure-form-stacked">
+	  <label for="name">Name<br></label>
+	  <input id="contactName" placeholder="Jane Smith">
+  </form>
+  
+  <br>
+  <form>
+	  <label for="name">Phone Number<br></label>
+	  <input id="contactNumber" placeholder="123-456-789">
+	  
+  </form>
+  
+  <br>
+  <form>
+	  <label for="name">Email Address<br></label>
+	  <input id="contactEmail" placeholder="janesmith@colorado.edu">
+	  
+  </form>
+  <br>
+  <button class="button" onclick="contactAddClear()" >Clear</button>
+    <button class="button" onclick="addContactFunc()" >Dial</button>
+	
+</div>
+
+
+
+<div id="Test_Gestures" class="tabcontent">
+  <h3>Gesture Area</h3>
+  <input id= "gestureInput" type="text" disabled placeholder="Ready">
+  <br>	
+  <br>
+  <div id="gesture_Input" class="gesture_div">
+  </div>
+  <br>
+ </div>
+
+ 
+ 
+<script>
+downX = 0
+downY = 0
+
+$( gesture_Input )
+  .mouseup(function(event) {
+	upX = event.pageX
+	upY = event.pageY
+	if (upX < downX)
+		$(gestureInput).val("Swipe Left");
+		
+	else if (upX > downX)
+		$(gestureInput).val("Swipe Right");
+				
+	else if (upX == downX)
+		$(gestureInput).val("Mouse Up");
+		
+  })
+  .mousedown(function(event) {
+    $(gestureInput).val("Mouse Down");
+	downX = event.pageX
+	downY = event.pageY
+  });
+
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+</script>
+     
+</body>
+</html> 
